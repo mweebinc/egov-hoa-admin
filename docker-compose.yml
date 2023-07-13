@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  server:
+    container_name: nq-dasboard
+    image: nginx:1.21.6
+    restart: always
+    volumes:
+      - ./build:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    #    ports:
+    #      - 8080:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.panel.loadbalancer.server.port=80
+      - traefik.http.routers.panel.rule=Host("dashboard.innque.com")
+      - traefik.http.routers.panel.entrypoints=web
+      - traefik.http.routers.panel_secured.rule=Host("dashboard.innque.com")
+      - traefik.http.routers.panel_secured.entrypoints=websecure
+      - traefik.http.routers.panel_secured.tls.certresolver=myhttpchallenge
+      - traefik.http.routers.panel.middlewares=redirect@file
+
+
+networks:
+  default:
+    external:
+      name: proxy-server-network

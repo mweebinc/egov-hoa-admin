@@ -1,0 +1,11 @@
+{
+  "name": {
+    "type": "String"
+  },
+  "subdivision": {
+    "type": "String"
+  },
+  "status": {
+    "type": "Component"
+  }
+}

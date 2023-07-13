@@ -1,0 +1,22 @@
+.custom-divider {
+  border-left-color: #de6f1f;
+}
+
+.calendar .table-bordered td:not(.disabled-event):hover {
+  background: #e67e22 !important;
+  color: #fff;
+  cursor: pointer;
+}
+
+.calendar .table-bordered td.disabled-event {
+  cursor: not-allowed;
+}
+
+.calendar .table-bordered td {
+  position: relative;
+  height: 100px;
+
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}

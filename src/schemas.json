@@ -1,0 +1,19 @@
+[
+  {
+    "collection": "users",
+    "fields": {
+      "username": {
+        "type": "String",
+        "index": 1
+      }
+    }
+  },
+  {
+    "collection": "roles",
+    "fields": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "birthdate": {
+    "type": "Date",
+    "defaultValue": "1990-01-01",
+    "label": "Birth Date: ",
+    "icon": "bi bi-calendar4-event"
+  },
+  "birthplace": {
+    "label": "Birth Place: ",
+    "icon": "bi bi-geo-alt",
+    "placeholder": "address"
+  },
+  "gender": {
+    "label": "Gender: ",
+    "icon": "bi bi-gender-ambiguous",
+    "placeholder": "https://domain.com"
+  },
+  "profession": {
+    "label": "Profession: ",
+    "icon": "bi bi-briefcase",
+    "placeholder": "work or skills"
+  }
+}

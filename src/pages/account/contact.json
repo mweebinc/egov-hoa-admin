@@ -1,0 +1,18 @@
+{
+  "mobile": {
+    "icon": "bi bi-phone",
+    "label": "Mobile: ",
+    "placeholder": "mobile phone number",
+    "type": "Tel"
+  },
+  "address": {
+    "icon": "bi bi-geo-alt",
+    "label": "Address: ",
+    "placeholder": "address"
+  },
+  "website": {
+    "icon": "bi bi-globe",
+    "label": "Website: ",
+    "placeholder": "https://domain.com"
+  }
+}

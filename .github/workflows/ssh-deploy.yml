@@ -1,0 +1,16 @@
+name: SSH Deploy
+# trigger when it has release created
+on:
+  push:
+    branches:
+      - "master"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 # Checkout repository
+      - name: Setup SSH
+        run: |
+          eval $(ssh-agent)
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+          ./scripts/deploy.sh ${{secrets.SSH_HOST}} ${{secrets.SSH_USERNAME}} ${{github.event.repository.name}} ${{ github.repository_owner }}
