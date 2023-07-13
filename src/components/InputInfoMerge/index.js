@@ -1,32 +1,23 @@
 import React from "react";
-import InputFactory from "../../components/InputFactory";
-import getValue from "../../getValue";
+import InputFactory from "../InputFactory";
 
-function PasswordForm({fields, object, icon, onSave}) {
+function InputInfoMerge({fields, label, onChange, onSubmit}) {
     const [isEdit, setEdit] = React.useState(false);
-    const temp = React.useMemo(() => Object.assign({}, object), [object]);
 
-    function onSubmit(e) {
+    function _onSubmit(e) {
         e.preventDefault();
         setEdit(false);
-        Object.keys(fields).forEach(field => {
-            object[field] = temp[field];
-            delete temp[field];
-        });
-        onSave();
+        onSubmit(e);
     }
 
     function cancelClick() {
-        Object.keys(fields).forEach(field => {
-            temp[field] = object[field];
-        });
         setEdit(false);
     }
 
     if (isEdit) {
         return (
             <li className="list-group-item text-nowrap text-truncate">
-                <form onSubmit={onSubmit}>
+                <form onSubmit={_onSubmit}>
                     {
 
                         Object.keys(fields).map((field) => {
@@ -38,9 +29,9 @@ function PasswordForm({fields, object, icon, onSave}) {
                                         <span className="ms-2 fw-light">{label}</span>
                                     </label>
                                     <InputFactory
+                                        type={type}
                                         field={field}
-                                        type={getValue(type, type, 'String')}
-                                        object={temp}
+                                        onChange={onChange}
                                         {...options}
                                     />
                                 </>
@@ -59,11 +50,11 @@ function PasswordForm({fields, object, icon, onSave}) {
     return (
         <li className="list-group-item text-nowrap text-truncate">
             <i className="bi bi-key"></i>
-            <span className="ms-2 fw-light">Password: </span>
+            <span className="ms-2 me-1 fw-light">{label}</span>
             <span className="fs-sm">**********</span>
             <button onClick={() => setEdit(true)} className="btn btn-link p-0 float-end fs-sm">Change</button>
         </li>
     )
 }
 
-export default PasswordForm;
+export default InputInfoMerge;

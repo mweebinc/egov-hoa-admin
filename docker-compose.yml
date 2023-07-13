@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    container_name: nq-dasboard
+    container_name: hoa-admin
     image: nginx:1.21.6
     restart: always
     volumes:
@@ -12,13 +12,13 @@ services:
     #      - 8080:80
     labels:
       - traefik.enable=true
-      - traefik.http.services.panel.loadbalancer.server.port=80
-      - traefik.http.routers.panel.rule=Host("dashboard.innque.com")
-      - traefik.http.routers.panel.entrypoints=web
-      - traefik.http.routers.panel_secured.rule=Host("dashboard.innque.com")
-      - traefik.http.routers.panel_secured.entrypoints=websecure
-      - traefik.http.routers.panel_secured.tls.certresolver=myhttpchallenge
-      - traefik.http.routers.panel.middlewares=redirect@file
+      - traefik.http.services.hoa-admin.loadbalancer.server.port=80
+      - traefik.http.routers.hoa-admin.rule=Host("admin.hoa.innque.com")
+      - traefik.http.routers.hoa-admin.entrypoints=web
+      - traefik.http.routers.hoa-admin_secured.rule=Host("admin.hoa.innque.com")
+      - traefik.http.routers.hoa-admin_secured.entrypoints=websecure
+      - traefik.http.routers.hoa-admin_secured.tls.certresolver=myhttpchallenge
+      - traefik.http.routers.hoa-admin.middlewares=redirect@file
 
 
 networks:

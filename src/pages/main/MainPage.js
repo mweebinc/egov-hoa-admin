@@ -13,7 +13,6 @@ import {Layout, Progress, LogoHolder} from "nq-component";
 import MigrationPage from "../migration/MigrationPage";
 import AccountPage from "../account/AccountPage";
 import RoleFormPage from "../role-form/RoleFormPage";
-import canRead from "../../canRead";
 import withRouter from "../../withRouter";
 import DashboardPage from "../dashboard/DashboardPage";
 import ResidentListPage from "../resident-list/ResidentListPage";
@@ -40,20 +39,33 @@ class MainPage extends BasePage {
     render() {
         const user = this.getCurrentUser();
         const schemas = this.getSchemas();
-        const roles = this.getCurrentRoles();
         if (user === undefined || schemas === undefined) {
             return (
                 <Progress/>
             )
         }
-
-        const menus = [...schemas
-            .filter(s => canRead(roles, s.permissions) || user.isMaster)
-            .sort((a, b) => (a.index || 0) - (b.index || 0))
-            .map(s => ({
-                name: s.label || s.collection || s.name,
-                route: '/collection/' + s.collection || s.name
-            }))];
+        const menus = [
+            {
+                name: "Dashboard",
+                route: "/",
+                icon: "bi bi-pie-chart"
+            },
+            {
+                name: "Residents",
+                route: "/collection/residents",
+                icon: "bi bi-people"
+            },
+            {
+                name: "Finances",
+                route: "/collection/finances",
+                icon: "bi bi-wallet2"
+            },
+            {
+                name: "Account",
+                route: "/account",
+                icon: "bi bi-sliders"
+            }
+        ];
         return (
             <Layout>
                 <Layout.Context.Consumer>
@@ -93,6 +105,7 @@ class MainPage extends BasePage {
                 </Layout.Context.Consumer>
                 <main className="vh-100 d-flex flex-column">
                     <Routes>
+                        <Route exact path={'/'} element={<DashboardPage/>}/>
                         <Route exact path={'/collection/dashboard'} element={<DashboardPage/>}/>
                         <Route exact path={'/collection/finances'} element={<ResidentListPage/>}/>
                         <Route exact path={'/collection/:name'} element={<CollectionListPage/>}/>
