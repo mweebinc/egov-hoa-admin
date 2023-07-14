@@ -41,7 +41,7 @@ class SignInPage extends BasePage {
                                                 className="img-fluid login-img mb-3 w-50"
                                                 alt="company logo"
                                                 src="/logo.png"/>
-                                            <h1 className="fw-bold text-black">Homeowner Association</h1>
+                                            <h1 className="fw-bold text-black">Homeowner Association Admin</h1>
                                         </div>
                                     </div>
                                 </div>

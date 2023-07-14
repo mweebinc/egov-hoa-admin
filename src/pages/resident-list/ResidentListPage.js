@@ -29,12 +29,14 @@ function getStatus(paymentDate, isCurrentMonth) {
         return "MIGS";
     }
 }
+
 function isSameMonth(date1, date2) {
     return (
         date1.getFullYear() === date2.getFullYear() &&
         date1.getMonth() === date2.getMonth()
     );
 }
+
 function getStatusColor(status) {
     switch (status) {
         case "MIGS":
@@ -84,7 +86,8 @@ class ResidentListPage extends BaseListPage {
                 return {
                     id: o.id,
                     name: `${resident.first_name} ${resident.last_name}`,
-                    subdivision: resident.subdivision,
+                    hoa: resident.hoa,
+                    address: `${resident.street} ${resident.barangay.name ? resident.barangay.name : ''}`,
                     status: (
                         <span className={`badge ${getStatusColor(status)} text-white`}>
                           {status}

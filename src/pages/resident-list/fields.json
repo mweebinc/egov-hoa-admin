@@ -2,8 +2,13 @@
   "name": {
     "type": "String"
   },
-  "subdivision": {
-    "type": "String"
+  "hoa": {
+    "type": "String",
+    "label": "HOA Name"
+  },
+  "address": {
+    "type": "String",
+    "label": "address"
   },
   "status": {
     "type": "Component"
