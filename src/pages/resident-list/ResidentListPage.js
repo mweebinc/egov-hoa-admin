@@ -1,68 +1,22 @@
 import React from 'react';
 import ResidentListPresenter from './ResidentListPresenter';
 import {Table, Button} from "nq-component";
-import {addSchemaUseCase, updateSchemaUseCase, deleteSchemaUseCase} from '../../usecases/schema/usecases';
-import {
-    deleteObjectUseCase,
-    findObjectUseCase,
-    upsertUseCase
-} from '../../usecases/object';
-import {exportCSVUseCase} from '../../usecases/csv/usecases';
+import {aggregateUseCase, deleteObjectUseCase, findObjectUseCase, upsertUseCase} from '../../usecases/object';
 import {Progress, InfiniteScroll} from "nq-component";
 import withRouter from "../../withRouter";
 import Search from "../../components/Search";
 import BaseListPage from "../../base/BaseListPage";
 import NavBar from "../../components/navbar";
 import fields from "./fields.json";
+import getStatusColor from "./getStatusColor";
+import ButtonGroup from "../../components/ButtonGroup";
+import statuses from "./statuses.json";
 
-
-function getStatus(paymentDate, isCurrentMonth) {
-    const monthDiff =
-        (new Date().getFullYear() - paymentDate.getFullYear()) * 12;
-    const months = monthDiff + new Date().getMonth() - paymentDate.getMonth();
-
-    if (months >= 3) {
-        return "DELINQUENT";
-    } else if (months >= 0) {
-        return isCurrentMonth ? "MIGS" : "DUE";
-    } else {
-        return "MIGS";
-    }
-}
-
-function isSameMonth(date1, date2) {
-    return (
-        date1.getFullYear() === date2.getFullYear() &&
-        date1.getMonth() === date2.getMonth()
-    );
-}
-
-function getStatusColor(status) {
-    switch (status) {
-        case "MIGS":
-            return "text-bg-success";
-        case "DUE":
-            return "text-bg-warning";
-        case "DELINQUENT":
-            return "text-bg-danger";
-        default:
-            return "";
-    }
-}
 
 class ResidentListPage extends BaseListPage {
     constructor(props) {
         super(props);
-        this.presenter = new ResidentListPresenter(
-            this,
-            findObjectUseCase(),
-            deleteObjectUseCase(),
-            upsertUseCase(),
-            exportCSVUseCase(),
-            addSchemaUseCase(),
-            updateSchemaUseCase(),
-            deleteSchemaUseCase(),
-        );
+        this.presenter = new ResidentListPresenter(this, findObjectUseCase(), deleteObjectUseCase(), aggregateUseCase(), upsertUseCase());
         this.state = {
             objects: [],
             selected: [],
@@ -72,30 +26,47 @@ class ResidentListPage extends BaseListPage {
     }
 
     getCollectionName() {
-        return 'finances';
+        return 'residents';
     }
 
     setObjects(objects) {
         this.setState({
-            objects: objects.map((o) => {
-                const resident = o.member;
-                const current = new Date();
-                const payment_date = new Date(o.payment_date);
-                const isCurrentMonth = isSameMonth(payment_date, current);
-                const status = getStatus(payment_date, isCurrentMonth);
+            objects: objects.map((resident) => {
+                const status = resident.status;
+                const address = [];
+                if (resident.block_number) {
+                    address.push('blk ' + resident.block_number);
+                }
+                if (resident.unit_number) {
+                    address.push(resident.unit_number);
+                }
+                if (resident.street) {
+                    address.push(resident.street);
+                }
+                if (resident.barangay.length > 0) {
+                    address.push(resident.barangay[0].name);
+                }
                 return {
-                    id: o.id,
+                    id: resident._id,
                     name: `${resident.first_name} ${resident.last_name}`,
-                    hoa: resident.hoa,
-                    address: `${resident.street} ${resident.barangay.name ? resident.barangay.name : ''}`,
+                    address: address.join(' '),
+                    hoa: resident.hoa.length > 0 && resident.hoa[0].name,
                     status: (
                         <span className={`badge ${getStatusColor(status)} text-white`}>
-                          {status}
+                            {status}
                         </span>
                     ),
                 };
             }),
         });
+    }
+
+    onClickFilterStatus(option) {
+        if (option.label === "ALL") {
+            this.onClickFilterStatus({});
+            return;
+        }
+        this.presenter.onClickFilterStatus({status: option.label})
     }
 
     render() {
@@ -104,8 +75,7 @@ class ResidentListPage extends BaseListPage {
         if (!schema) return <Progress/>;
         return (
             <>
-                <NavBar
-                />
+                <NavBar/>
                 <div className="overflow-auto">
                     <InfiniteScroll
                         className="h-100"
@@ -137,11 +107,19 @@ class ResidentListPage extends BaseListPage {
                                         )
                                 }
                             </div>
+                            <div className="mt-3">
+                                <ButtonGroup
+                                    onClick={this.onClickFilterStatus.bind(this)}
+                                    options={statuses}/>
+                            </div>
                             <Search
                                 schemas={this.getSchemas()}
                                 className="mt-3"
                                 onSubmit={this.searchSubmit.bind(this)}
-                                fields={schema.fields}/>
+                                fields={{
+                                    first_name: {type: "String"},
+                                    last_name: {type: "String"},
+                                }}/>
                             <Table
                                 fields={fields}
                                 objects={objects}

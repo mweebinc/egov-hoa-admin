@@ -38,8 +38,8 @@ class BaseListPage extends BasePage {
         this.presenter.loadMore();
     }
 
-    searchSubmit(query) {
-        this.presenter.searchSubmit(query);
+    searchSubmit(where) {
+        this.presenter.searchSubmit(where);
     }
 
     setCount(count) {

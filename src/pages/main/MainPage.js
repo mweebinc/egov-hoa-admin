@@ -16,6 +16,7 @@ import RoleFormPage from "../role-form/RoleFormPage";
 import withRouter from "../../withRouter";
 import DashboardPage from "../dashboard/DashboardPage";
 import ResidentListPage from "../resident-list/ResidentListPage";
+import PaymentListPage from "../payment-list/PaymentListPage";
 
 class MainPage extends BasePage {
     constructor(props) {
@@ -56,8 +57,8 @@ class MainPage extends BasePage {
                 icon: "bi bi-people"
             },
             {
-                name: "Finances",
-                route: "/collection/finances",
+                name: "Payments",
+                route: "/collection/payments",
                 icon: "bi bi-wallet2"
             },
             {
@@ -107,7 +108,8 @@ class MainPage extends BasePage {
                     <Routes>
                         <Route exact path={'/'} element={<DashboardPage/>}/>
                         <Route exact path={'/collection/dashboard'} element={<DashboardPage/>}/>
-                        <Route exact path={'/collection/finances'} element={<ResidentListPage/>}/>
+                        <Route exact path={'/collection/residents'} element={<ResidentListPage/>}/>
+                        <Route exact path={'/collection/payments'} element={<PaymentListPage/>}/>
                         <Route exact path={'/collection/:name'} element={<CollectionListPage/>}/>
                         <Route path={'/collection/roles/form'} element={<RoleFormPage/>}/>
                         <Route path={'/collection/roles/form/:id'} element={<RoleFormPage/>}/>

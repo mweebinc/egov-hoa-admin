@@ -115,9 +115,8 @@ function InputFactory({type, _type, field, object, schemas, hidden, required, on
         case 'Object':
         case 'Array':
             return <InputJson
-                defaultValue={JSON.stringify(value, null, 4) || ''}
+                defaultValue={value}
                 onChange={_onChange.bind(this, field)}
-                id={object.id}
                 required={required}
                 {...props}/>;
         case 'Enum':
@@ -126,7 +125,7 @@ function InputFactory({type, _type, field, object, schemas, hidden, required, on
                 onChange={_onChange.bind(this, field)}
                 type={type.toLowerCase()}
                 options={props.options}
-                label={(props.dynamic ? "Select of type " : "Select ") + (field || '')}
+                placeholder={props.placeholder || ((props.dynamic ? "Select of type " : "Select ") + (props.label || field))}
                 required={required}
                 {...props}/>;
         case 'Icon':
