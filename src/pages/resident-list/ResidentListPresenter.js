@@ -16,6 +16,12 @@ class ResidentListPresenter extends BaseListPresenter {
         this.getObjects();
     }
 
+    onClickItem(index) {
+        const object = this.objects[index];
+        const collection = this.view.getCollectionName();
+        this.view.navigateTo("/collection/" + collection + "/form/" + object._id);
+    }
+
     async getObjects() {
         const collection = this.view.getCollectionName();
         const skip = (this.current - 1) * this.limit;
@@ -23,8 +29,6 @@ class ResidentListPresenter extends BaseListPresenter {
             {
                 $match: this.where
             },
-            {$skip: skip},
-            {$limit: this.limit},
             {
                 $lookup: {
                     from: "barangay",
@@ -147,6 +151,8 @@ class ResidentListPresenter extends BaseListPresenter {
             {
                 $match: this.whereStatus
             },
+            {$skip: skip},
+            {$limit: this.limit},
         ];
 
         try {
