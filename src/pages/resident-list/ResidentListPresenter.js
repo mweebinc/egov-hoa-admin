@@ -4,15 +4,15 @@ class ResidentListPresenter extends BaseListPresenter {
     constructor(view, findObjectUseCase, deleteObjectUseCase, aggregateUseCase) {
         super(view, findObjectUseCase, deleteObjectUseCase);
         this.aggregateUseCase = aggregateUseCase;
-        this.whereStatus = {};
+        this.match = {};
     }
-
-    onClickFilterStatus(whereStatus) {
+    
+    onClickFilterStatus(match) {
         this.current = 1;
         this.objects = [];
         this.view.setObjects([]);
         this.view.setSelected([]);
-        this.whereStatus = whereStatus;
+        this.match = match;
         this.getObjects();
     }
 
@@ -24,7 +24,11 @@ class ResidentListPresenter extends BaseListPresenter {
 
     async getObjects() {
         const collection = this.view.getCollectionName();
+        const user = this.view.getCurrentUser();
         const skip = (this.current - 1) * this.limit;
+        if (user.hoa) {
+            this.match['hoa._id'] = user.hoa.id;
+        }
         const pipeline = [
             {
                 $match: this.where
@@ -77,16 +81,16 @@ class ResidentListPresenter extends BaseListPresenter {
                 },
             },
             {
-                "$addFields": {
-                    "current_date": {
-                        "$dateFromString": {
-                            "dateString": {
-                                "$dateToString": {
-                                    "format": "%Y-%m-%d",
-                                    "date": "$$NOW"
+                $addFields: {
+                    current_date: {
+                        $dateFromString: {
+                            dateString: {
+                                $dateToString: {
+                                    format: "%Y-%m-%d",
+                                    date: "$$NOW"
                                 }
                             },
-                            "timezone": "UTC"
+                            timezone: "UTC"
                         }
                     }
                 }
@@ -149,17 +153,24 @@ class ResidentListPresenter extends BaseListPresenter {
                 },
             },
             {
-                $match: this.whereStatus
+                $match: this.match
             },
             {$skip: skip},
             {$limit: this.limit},
         ];
-
+        const query = {
+            count: true,
+            limit: 1,
+            where: {...this.where}
+        };
+        if (user.hoa) {
+            query.where['hoa'] = {id: user.hoa.id, ...this.where};
+        }
         try {
             this.view.showProgress();
             const objects = await this.aggregateUseCase.execute(collection, pipeline);
             this.objects = this.objects.concat(objects);
-            const {count} = await this.findObjectUseCase.execute(collection, {count: true, limit: 1});
+            const {count} = await this.findObjectUseCase.execute(collection, query);
             this.view.setObjects(this.objects);
             this.view.setCount(count);
             this.view.hideProgress();

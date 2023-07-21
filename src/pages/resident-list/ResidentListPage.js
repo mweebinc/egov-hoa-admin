@@ -50,7 +50,6 @@ class ResidentListPage extends BaseListPage {
                     id: resident._id,
                     name: `${resident.first_name} ${resident.last_name}`,
                     address: address.join(' '),
-                    hoa: resident.hoa.length > 0 && resident.hoa[0].name,
                     status: (
                         <span className={`badge ${getStatusColor(status)} text-white`}>
                             {status}

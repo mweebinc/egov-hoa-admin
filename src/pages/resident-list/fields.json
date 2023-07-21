@@ -8,9 +8,5 @@
   },
   "status": {
     "type": "Component"
-  },
-  "hoa": {
-    "type": "String",
-    "label": "HOA Name"
   }
 }

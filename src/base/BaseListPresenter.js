@@ -11,7 +11,7 @@ class BaseListPresenter {
     }
 
     init() {
-        this.limit = 10;
+        this.limit = 20;
         this.current = 1;
         this.where = {};
         this.objects = [];
