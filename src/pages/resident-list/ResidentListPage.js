@@ -100,17 +100,23 @@ class ResidentListPage extends BaseListPage {
     return (
       <>
         <div className="d-flex">
-          <span>Name: </span>
+          <span>
+            <b>Name:</b>{" "}
+          </span>
 
           <span> {object["name"]}</span>
         </div>
         <div className="d-flex">
-          <span>Address: </span>
+          <span>
+            <b>Address:</b>{" "}
+          </span>
 
           <span> {object["address"]}</span>
         </div>
         <div className="d-flex">
-          <span>Status: </span>
+          <span>
+            <b>Status:</b>{" "}
+          </span>
 
           <span> {object["status"]}</span>
         </div>
