@@ -11,7 +11,7 @@ const defaultProps = {
 function FormTab({tabs, onSet}) {
     if (tabs === undefined) return null;
     return (
-        <nav>
+        <nav className="col-12 mb-3">
             <div className="nav nav-tabs">
                 {
                     Object.keys(tabs).map((key, index) => {

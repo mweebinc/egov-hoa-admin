@@ -17,6 +17,7 @@ import withRouter from "../../withRouter";
 import DashboardPage from "../dashboard/DashboardPage";
 import ResidentListPage from "../resident-list/ResidentListPage";
 import PaymentListPage from "../payment-list/PaymentListPage";
+import HoaFormPage from "../hoa-form/HoaFormPage";
 
 class MainPage extends BasePage {
     constructor(props) {
@@ -45,6 +46,18 @@ class MainPage extends BasePage {
                 <Progress/>
             )
         }
+        const settings = [
+            {
+                name: "Edit Account",
+                route: "/account",
+                icon: "bi bi-person-check",
+            },
+            {
+                name: "HOA",
+                route: "/form",
+                icon: "bi bi-house-gear"
+            },
+        ];
         const menus = [
             {
                 name: "Dashboard",
@@ -62,9 +75,9 @@ class MainPage extends BasePage {
                 icon: "bi bi-wallet2"
             },
             {
-                name: "Account",
-                route: "/account",
-                icon: "bi bi-sliders"
+                name: "Settings",
+                icon: "bi bi-sliders",
+                route: settings,
             }
         ];
         return (
@@ -117,6 +130,7 @@ class MainPage extends BasePage {
                         <Route path={'/collection/:name/form/:id'} element={<CollectionFormPage/>}/>
                         <Route path={'/migration'} element={<MigrationPage/>}/>
                         <Route path={'/account'} element={<AccountPage/>}/>
+                        <Route path={'/form'} element={<HoaFormPage/>}/>
                         <Route element={<NotFoundPage/>}/>
                     </Routes>
                 </main>

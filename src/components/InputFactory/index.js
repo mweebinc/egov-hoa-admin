@@ -17,7 +17,7 @@ import {findObjectUseCase} from "../../usecases/object";
 import {saveFileUseCase, saveImageUseCase} from "../../usecases/file";
 import Context from "../../AppContext";
 import InputIcon from "../InputIcon";
-import InputRelated from "../InputRelated";
+import RelatedFactory from "../RelatedFactory";
 
 const findObject = findObjectUseCase();
 const saveImage = saveImageUseCase();
@@ -86,13 +86,13 @@ function InputFactory({type, _type, field, object, schemas, hidden, required, on
                 required={required}
                 {...props}/>;
         case 'Related':
-            return <InputRelated
-                isMulti={type === 'Relation'}
-                field={field}
-                type={type.toLowerCase()}
-                object={object}
-                schemas={context.schemas}
+            return <RelatedFactory
+                defaultValue={value}
+                onChange={_onChange.bind(this, field)}
+                schema={props.schema || (schemas || context.schemas).find(s => s.collection === props.target)}
                 find={findObject}
+                required={required}
+                field={field}
                 {...props}/>;
         case 'Image':
             return <InputImage

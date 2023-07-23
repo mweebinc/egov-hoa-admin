@@ -24,6 +24,10 @@ function group(schema) {
     return groups;
 }
 
+const defaultProps = {
+    excludeFields: []
+};
+
 /**
  * FormFactory component renders a form based on the provided schema and object data.
  * @param {Object} props - The component props.
@@ -32,7 +36,7 @@ function group(schema) {
  * @param {Function} props.onChange - The callback function called when a form field value changes.
  * @returns {JSX.Element} - The rendered form component.
  */
-function FormFactory({schema, object, onChange}) {
+function FormFactory({schema, object, onChange, excludeFields}) {
     const tabs = schema.tabs;
     const initialTab = tabs && Object.keys(tabs).length > 0 ? Object.keys(tabs)[0] : null; // Set the initial tab value
     const [_tab, setTab] = React.useState(initialTab);
@@ -44,48 +48,50 @@ function FormFactory({schema, object, onChange}) {
                 onSet={setTab}
                 tabs={tabs}
             />
-            <div className="row g-3 mt-3">
-                {Object.keys(groups).map(key => {
-                    const fields = groups[key];
-                    const {label} = sections[key] || {};
-                    const components = Object.keys(fields).map(field => {
-                        let {type, pattern, write, tab, col, ...options} = fields[field];
-                        if ((_tab && tab) && (_tab !== tab)) return null;
-                        if (write === false) return null;
-                        if (field === 'password') {
-                            type = "Password";
-                        }
-
-                        return (
-                            <div className={col || "col-md-4"} key={field}>
-                                {type !== 'Boolean' &&
-                                <label className="form-label fs-sm">{options.label || field}</label>}
-                                <InputFactory
-                                    object={object}
-                                    field={field}
-                                    onChange={onChange}
-                                    type={type}
-                                    className="fs-sm"
-                                    {...options}
-                                />
-                            </div>
-                        )
-                    }).filter(c => c);
+            {Object.keys(groups).map(key => {
+                const fields = groups[key];
+                const {label} = sections[key] || {};
+                const components = Object.keys(fields).map(field => {
+                    if (excludeFields.includes(field)) return null;
+                    let {type, pattern, write, tab, col, ...options} = fields[field];
+                    if ((_tab && tab) && (_tab !== tab)) return null;
+                    if (write === false) return null;
+                    if (field === 'password') {
+                        type = "Password";
+                    }
                     return (
-                        <>
-                            {(components.length > 0 && Object.keys(sections).length > 0) && (
-                                <div className="col-12">
-                                    <p className="small fw-bold mb-0 ms-1">{label || key}</p>
-                                    <hr/>
-                                </div>
-                            )}
-                            {components}
-                        </>
+                        <div
+                            className={col || "col-md-4"}
+                            key={field}>
+                            {type !== 'Boolean' &&
+                            <label className="form-label fs-sm">{options.label || field}</label>
+                            }
+                            <InputFactory
+                                object={object}
+                                field={field}
+                                onChange={onChange}
+                                type={type}
+                                className="fs-sm"
+                                {...options}
+                            />
+                        </div>
                     )
-                })}
-            </div>
+                }).filter(c => c);
+                return (
+                    <>
+                        {(components.length > 0 && Object.keys(sections).length > 0) && (
+                            <div className="col-12">
+                                <p className="small fw-bold mb-0 ms-1">{label || key}</p>
+                                <hr/>
+                            </div>
+                        )}
+                        {components}
+                    </>
+                )
+            })}
         </>
     )
 }
 
+FormFactory.defaultProps = defaultProps;
 export default FormFactory;
