@@ -1,25 +1,13 @@
-import React, { Component } from "react";
-import BaseListPage from "../../../base/BaseListPage";
-import CertificatePresenter from "./CertificatePresenter";
-import { findObjectUseCase } from "../../../usecases/object";
+import React from "react";
 
-class CertificatePage extends BaseListPage {
-  constructor(props) {
-    super(props);
-    this.presenter = new CertificatePresenter(this, findObjectUseCase());
-    this.state = {
-      objects: [],
-    };
-  }
+import BasePage from "../../../base/BasePage";
 
-  getCollectionName() {
-    return "hoa_officials";
-  }
+class CertificatePage extends BasePage {
   render() {
     const { object, official, logo } = this.props;
     const user = this.getCurrentUser();
 
-    const lolo = logo[0].objects.filter((o) => o.id === user.hoa.id);
+    const finalLogo = logo[0].objects.filter((o) => o.id === user.hoa.id);
 
     return (
       <div>
@@ -34,7 +22,7 @@ class CertificatePage extends BaseListPage {
           <div>
             {" "}
             <img
-              src={lolo.map((o) => o.logo)}
+              src={finalLogo.map((o) => o.logo)}
               alt=""
               style={{ width: "125px", height: "125px", borderRadius: "50%" }}
             />
@@ -56,7 +44,7 @@ class CertificatePage extends BaseListPage {
           </div>
           <div>
             <img
-              src={lolo.map((o) => o.logo2)}
+              src={finalLogo.map((o) => o.logo2)}
               alt=""
               style={{ width: "125px", height: "125px", borderRadius: "50%" }}
             />
@@ -180,6 +168,7 @@ class CertificatePage extends BaseListPage {
                   <p>:</p>
                   <p>:</p>
                 </div>
+
                 <div>
                   <p
                     style={{
@@ -190,39 +179,16 @@ class CertificatePage extends BaseListPage {
                   >
                     {object.name}
                   </p>
-                  <p
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
-                    22
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
-                    {object.sex}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
-                    {object.civil_status}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
-                    {object.address}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
+
+                  <p style={{ fontSize: "15px" }}>22</p>
+
+                  <p style={{ fontSize: "15px" }}>{object.sex}</p>
+
+                  <p style={{ fontSize: "15px" }}>{object.civil_status}</p>
+
+                  <p style={{ fontSize: "15px" }}>{object.address}</p>
+
+                  <p style={{ fontSize: "15px" }}>
                     {new Date(object.birthDate).toLocaleDateString()}
                   </p>
                 </div>
