@@ -19,6 +19,7 @@ import statuses from "./statuses.json";
 import printComponent from "../../printComponent";
 import ResidentCertificate from "../../components/Print";
 import certificate from "../../certificate.pdf";
+import CertificatePage from "../print/PrintCertificate/CertificatePage";
 
 class ResidentListPage extends BaseListPage {
   constructor(props) {
@@ -35,6 +36,9 @@ class ResidentListPage extends BaseListPage {
       selected: [],
       progress: true,
       count: 0,
+      object: null,
+      officials: [],
+      hoaLogo: [],
     };
     this.certRef = React.createRef();
   }
@@ -44,9 +48,15 @@ class ResidentListPage extends BaseListPage {
   }
 
   setObjects(objects) {
+    console.log("hehehe", objects);
     this.setState({
       objects: objects.map((resident) => {
         const status = resident.status;
+        const barangay = resident.barangay.map((b) => b.name);
+        const picture = resident.picture;
+        const sex = resident.sex;
+        const civil_status = resident.civil_status;
+        const birthdate = resident.birthdate;
         const address = [];
         if (resident.block_number) {
           address.push("blk " + resident.block_number);
@@ -69,9 +79,22 @@ class ResidentListPage extends BaseListPage {
               {status}
             </span>
           ),
+          barangay: barangay,
+          picture: picture,
+          sex: sex,
+          civil_status: civil_status,
+          birthDate: birthdate,
         };
       }),
     });
+  }
+
+  setHoaOfficial(officials) {
+    this.setState({ officials });
+  }
+
+  setHoaLogo(hoaLogo) {
+    this.setState({ hoaLogo });
   }
 
   onClickFilterStatus(option) {
@@ -88,7 +111,7 @@ class ResidentListPage extends BaseListPage {
     this.setStatePromise({ object })
       .then(() => printComponent(this.certRef.current, "certificate"))
       .then((result) => {
-        console.log(result);
+        console.log("result", result);
       })
       .catch((error) => {
         alert(error);
@@ -141,14 +164,20 @@ class ResidentListPage extends BaseListPage {
 
   render() {
     const schema = this.getSchema(this.getCollectionName());
-    const { objects, selected, count, progress } = this.state;
+    const { objects, selected, count, progress, officials, hoaLogo } =
+      this.state;
+
     if (!schema) return <Progress />;
     return (
       <>
         <div className="d-none">
           <div ref={this.certRef}>
-            {this.state.objects && (
-              <ResidentCertificate object={this.state.objects} />
+            {this.state.object && (
+              <CertificatePage
+                object={this.state.object}
+                official={officials}
+                logo={hoaLogo}
+              />
             )}
           </div>
         </div>

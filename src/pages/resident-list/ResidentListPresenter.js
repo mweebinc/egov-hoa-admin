@@ -7,6 +7,25 @@ class ResidentListPresenter extends BaseListPresenter {
     this.match = {};
   }
 
+  componentDidMount() {
+    this.init();
+
+    this.getObjects();
+  }
+
+  init() {
+    this.limit = 20;
+    this.current = 1;
+    this.where = {};
+    this.objects = [];
+    this.sort = { createdAt: -1 };
+    this.view.setObjects([]);
+    this.view.setSelected([]);
+    this.view.setHoaOfficial([]);
+    this.official = [];
+    this.logo = [];
+  }
+
   onClickFilterStatus(match) {
     this.current = 1;
     this.objects = [];
@@ -24,6 +43,8 @@ class ResidentListPresenter extends BaseListPresenter {
 
   async getObjects() {
     const collection = this.view.getCollectionName();
+    const collection2 = "hoa_officials";
+    const collection3 = "hoa";
     const user = this.view.getCurrentUser();
     const skip = (this.current - 1) * this.limit;
     if (user.hoa) {
@@ -157,6 +178,15 @@ class ResidentListPresenter extends BaseListPresenter {
       limit: 1,
       where: { ...this.where },
     };
+    const query2 = {
+      count: true,
+      limit: this.limit,
+      skip: skip,
+      where: this.where,
+      include: ["all"],
+      sort: this.sort,
+    };
+
     if (user.hoa) {
       query.where["hoa"] = { id: user.hoa.id, ...this.where };
     }
@@ -165,8 +195,18 @@ class ResidentListPresenter extends BaseListPresenter {
       const objects = await this.aggregateUseCase.execute(collection, pipeline);
       this.objects = this.objects.concat(objects);
       const { count } = await this.findObjectUseCase.execute(collection, query);
-      console.log("datas", this.objects);
+      const official = await this.findObjectUseCase.execute(
+        collection2,
+        query2
+      );
+      const hoaLogo = await this.findObjectUseCase.execute(collection3, query2);
+
+      this.official = this.official.concat(official);
+      this.logo = this.logo.concat(hoaLogo);
+
       this.view.setObjects(this.objects);
+      this.view.setHoaOfficial(this.official);
+      this.view.setHoaLogo(this.logo);
       this.view.setCount(count);
       this.view.hideProgress();
     } catch (error) {
