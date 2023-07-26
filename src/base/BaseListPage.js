@@ -53,6 +53,7 @@ class BaseListPage extends BasePage {
     onSelectAll(checked) {
         this.presenter.onSelectAll(checked);
     }
+
     onClickItem(index, field) {
         this.presenter.onClickItem(index, field);
     }
