@@ -152,6 +152,7 @@ function InputFactory({
               (s) => s.collection === props.target
             )
           }
+          find={findObject}
           field={field}
           required={required}
           {...props}

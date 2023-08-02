@@ -3,6 +3,7 @@ import { findObjectUseCase, saveObjectUseCase } from "../../usecases/object";
 import { Table } from "nq-component";
 import Search from "../Search";
 import FormFactory from "../FormFactory";
+import InputDialog from "../InputDialog";
 
 const defaultProps = {
   where: {},
@@ -100,10 +101,9 @@ function RelationDialog({ schema, where, onCancel }) {
 
   function onClickAdd() {
     console.log("button Select", selected);
+    return <InputDialog pick={selected} />;
     cancel();
   }
-
-  console.log("Selected", selected);
 
   return (
     <div className="p-3 pb-4">
