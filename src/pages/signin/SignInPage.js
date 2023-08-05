@@ -5,7 +5,7 @@ import {signInUseCase} from "../../usecases/user";
 import {Button} from "nq-component";
 import BasePage from "../../base/BasePage";
 import withRouter from "../../withRouter";
-import InputFactory from "../../components/InputFactory";
+import {InputFactory} from "nq-component";
 
 class SignInPage extends BasePage {
     constructor() {

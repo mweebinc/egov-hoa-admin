@@ -9,7 +9,7 @@ import {updateSchemaUseCase} from "../../usecases/schema/usecases";
 import withRouter from "../../withRouter";
 import React from "react";
 import BaseFormPage from "../../base/BaseFormPage";
-import InputFactory from "../../components/InputFactory";
+import {InputFactory} from "nq-component";
 
 
 const permissionKeys = ['modify', 'create', 'get', 'find', 'update', 'delete'];

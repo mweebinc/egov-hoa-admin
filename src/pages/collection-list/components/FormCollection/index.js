@@ -1,6 +1,5 @@
 import React from 'react';
-import InputFactory from "../../../../components/InputFactory";
-import {Switch} from "nq-component";
+import {Switch,InputFactory} from "nq-component";
 
 function FormCollection({schema, onSubmit, onCancel}) {
     const [isAdvanced, setAdvanced] = React.useState(false);

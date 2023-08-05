@@ -1,5 +1,5 @@
 import React from "react";
-import InputFactory from "../../../../components/InputFactory";
+import {InputFactory} from "nq-component";
 
 // default field
 const options = ['id', 'createdAt', 'updatedAt', 'acl', 'username', 'password', 'email'];

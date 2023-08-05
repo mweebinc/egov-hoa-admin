@@ -93,6 +93,13 @@ body {
   background-color: $input-focus-bg;
 }
 
+.input-group button:hover {
+  border-color: $input-border-color;
+}
+
+.input-group button:active {
+  border-color: $input-border-color !important;
+}
 input[type="radio"], input[type="checkbox"] {
   box-shadow: none !important;
 }

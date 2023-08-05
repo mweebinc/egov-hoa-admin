@@ -2,7 +2,7 @@ import React from "react";
 import {InputString} from "nq-component";
 import {Switch} from "nq-component";
 import OptionType from "./OptionType";
-import InputFactory from "../../../../components/InputFactory";
+import {InputFactory} from "nq-component";
 
 const options = ['String', 'Number', 'Pointer', 'Relation', 'Date', 'Boolean', 'Object', 'Array', 'Image', 'File'];
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {OutputFactory} from "nq-component";
-import InputFactory from "../InputFactory";
+import {InputFactory} from "nq-component";
 
 const defaultProps = {
     type: "String",

@@ -1,5 +1,5 @@
 import React from "react";
-import InputFactory from "../InputFactory";
+import {InputFactory} from "nq-component";
 
 function FilterFactory({onChange, schemas, type, field, ...options}) {
     function _onChange(value) {

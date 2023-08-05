@@ -1,10 +1,11 @@
 import React from "react";
 import CollectionFormPresenter from "./CollectionFormPresenter";
-import {getObjectUseCase, upsertUseCase} from '../../usecases/object';
+import {findObjectUseCase, getObjectUseCase, saveObjectUseCase, upsertUseCase} from '../../usecases/object';
 import withRouter from "../../withRouter";
 import BaseFormPage from "../../base/BaseFormPage";
 import NavBar from "../../components/navbar";
-import FormFactory from "../../components/FormFactory";
+import {FormFactory} from "nq-component";
+import {saveFileUseCase, saveImageUseCase} from "../../usecases/file";
 
 class CollectionFormPage extends BaseFormPage {
     constructor(props) {
@@ -29,9 +30,15 @@ class CollectionFormPage extends BaseFormPage {
                                 <form onSubmit={this.onSubmitForm.bind(this)}>
                                     <div className="row g-3">
                                         <FormFactory
+                                            className="col-md-4"
                                             schema={schema}
+                                            schemas={this.getSchemas()}
                                             object={object}
-                                            onChange={this.onChange.bind(this)}/>
+                                            onChange={this.onChange.bind(this)}
+                                            findObject={findObjectUseCase()}
+                                            saveObject={saveObjectUseCase()}
+                                            saveImage={saveImageUseCase()}
+                                            saveFile={saveFileUseCase()}/>
                                     </div>
                                     <div className="mt-4">
                                         <button type="submit" className="btn btn-primary fs-sm me-3">

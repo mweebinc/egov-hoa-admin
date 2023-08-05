@@ -6,7 +6,7 @@ import {signUpUseCase} from "../../usecases/user";
 import {updateObjectUseCase} from "../../usecases/object";
 import {Button} from "nq-component";
 import withRouter from "../../withRouter";
-import InputFactory from "../../components/InputFactory";
+import {InputFactory} from "nq-component";
 
 class SignUpPage extends BasePage {
     constructor(props) {

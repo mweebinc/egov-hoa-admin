@@ -1,5 +1,5 @@
 import React from "react";
-import InputFactory from "../../../../components/InputFactory";
+import {InputFactory} from "nq-component";
 import schemas from "../../../../schemas.json";
 
 const options = ["Roles", "Users"];

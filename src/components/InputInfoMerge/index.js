@@ -1,5 +1,5 @@
 import React from "react";
-import InputFactory from "../InputFactory";
+import {InputFactory} from "nq-component";
 
 function InputInfoMerge({fields, label, onChange, onSubmit}) {
     const [isEdit, setEdit] = React.useState(false);

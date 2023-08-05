@@ -1,6 +1,6 @@
 import React from "react";
 import withRouter from "../withRouter";
-import InputFactory from "../components/InputFactory";
+import {InputFactory} from "nq-component";
 import {useNavigate} from "react-router-dom";
 
 function SignInPage() {

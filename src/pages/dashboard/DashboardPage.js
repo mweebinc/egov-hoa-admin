@@ -5,7 +5,6 @@ import Count from "./components/Count";
 import BaseListPage from "../../base/BaseListPage";
 import {deleteObjectUseCase, findObjectUseCase, upsertUseCase} from "../../usecases/object";
 import {dialog} from "nq-component";
-import AddWidget from "./components/AddWidget";
 import DialogTable from "../../components/DialogTable";
 import DeleteWidget from "./components/DeleteWidget";
 import FormCollection from "../collection-list/components/FormCollection";
@@ -37,19 +36,6 @@ class DashboardPage extends BaseListPage {
         dialog.close();
     }
 
-    onClickAddWidget() {
-        const schemas = this.getSchemas();
-        dialog.fire({
-            html: <AddWidget
-                collections={schemas.map(s => s.collection)}
-                onSubmit={o => {
-                    dialog.close();
-                    this.presenter.onSubmitAddWidget(o);
-                }}
-                onCancel={() => dialog.close()}/>,
-            footer: false
-        });
-    }
 
     onClickDeleteWidget() {
         const schemas = this.getSchemas();
@@ -100,11 +86,7 @@ class DashboardPage extends BaseListPage {
                         <div className="dropdown dropstart d-inline-block">
                             <i role="button" data-bs-toggle="dropdown" className="bi bi-three-dots-vertical"></i>
                             <div className="dropdown-menu fs-xs">
-                                <button
-                                    onClick={this.onClickAddWidget.bind(this)}
-                                    className="dropdown-item py-3">
-                                    <i className='bi bi-folder-plus pe-2'/>Add widget
-                                </button>
+
                                 <button
                                     disabled={objects.length < 1}
                                     onClick={this.onClickDeleteWidget.bind(this)}

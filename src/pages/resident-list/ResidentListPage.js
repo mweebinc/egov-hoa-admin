@@ -75,7 +75,7 @@ class ResidentListPage extends BaseListPage {
   render() {
     const schema = this.getSchema(this.getCollectionName());
     const user = this.getCurrentUser();
-    const { objects, selected, count, progress, officials, hoaLogo } =
+    const { objects, selected, count, progress, hoaLogo } =
       this.state;
     const finalOfficials = hoaLogo[0]?.objects.filter(
       (o) => o.id === user.hoa.id
@@ -143,7 +143,8 @@ class ResidentListPage extends BaseListPage {
               <Table
                 fields={fields}
                 objects={objects}
-                hasSelect
+                selectable
+                collapsable
                 selected={selected}
                 onSelect={this.onSelect.bind(this)}
                 onSelectAll={this.onSelectAll.bind(this)}
