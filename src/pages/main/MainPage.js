@@ -18,6 +18,8 @@ import DashboardPage from "../dashboard/DashboardPage";
 import ResidentListPage from "../resident-list/ResidentListPage";
 import PaymentListPage from "../payment-list/PaymentListPage";
 import HoaFormPage from "../hoa-form/HoaFormPage";
+import Welcome from "../welcome/WelcomePage";
+import WelcomePage from "../welcome/WelcomePage";
 
 class MainPage extends BasePage {
   constructor(props) {
@@ -63,8 +65,13 @@ class MainPage extends BasePage {
     ];
     const menus = [
       {
-        name: "Dashboard",
+        name: "Welcome",
         route: "/",
+        icon: "bi bi-pie-chart",
+      },
+      {
+        name: "Dashboard",
+        route: "/dashboard",
         icon: "bi bi-pie-chart",
       },
       {
@@ -122,7 +129,8 @@ class MainPage extends BasePage {
         </Layout.Context.Consumer>
         <main className="vh-100 d-flex flex-column">
           <Routes>
-            <Route exact path={"/"} element={<DashboardPage />} />
+            <Route exact path={"/dashboard"} element={<DashboardPage />} />
+            <Route path="/" element={<WelcomePage />} />
             <Route
               exact
               path={"/collection/dashboard"}
